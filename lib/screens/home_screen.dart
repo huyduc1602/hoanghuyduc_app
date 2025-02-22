@@ -11,6 +11,15 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   late final WebViewController _controller;
   bool _isLoading = true;
+  int _currentIndex = 0;
+
+  final List<String> _pages = [
+    'https://hoanghuyduc.com',
+    'https://hoanghuyduc.com/about',
+    'https://hoanghuyduc.com/projects',
+    'https://hoanghuyduc.com/contact',
+    'https://hoanghuyduc.com/chat',
+  ];
 
   @override
   void initState() {
@@ -33,7 +42,14 @@ class _HomeScreenState extends State<HomeScreen> {
           },
         ),
       )
-      ..loadRequest(Uri.parse('https://hoanghuyduc.com'));
+      ..loadRequest(Uri.parse(_pages[0]));
+  }
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _currentIndex = index;
+      _controller.loadRequest(Uri.parse(_pages[index]));
+    });
   }
 
   @override
@@ -49,6 +65,33 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
           ],
         ),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _currentIndex,
+        onTap: _onItemTapped,
+        type: BottomNavigationBarType.fixed,
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person),
+            label: 'About',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.work),
+            label: 'Projects',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.mail),
+            label: 'Contact',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.chat),
+            label: 'Chat',
+          ),
+        ],
       ),
     );
   }
