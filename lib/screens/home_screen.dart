@@ -32,6 +32,11 @@ class _HomeScreenState extends State<HomeScreen> {
             setState(() => _isLoading = true);
           },
           onPageFinished: (String url) {
+            // Hide nav element after page loads
+            _controller.runJavaScript('''
+              document.querySelector('nav')?.style.display = 'none';
+              document.querySelector('header')?.style.display = 'none';
+            ''');
             setState(() => _isLoading = false);
           },
           onNavigationRequest: (NavigationRequest request) {
